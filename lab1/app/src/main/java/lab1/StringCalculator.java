@@ -23,8 +23,13 @@ public class StringCalculator
     private static String[] get_numbers_string(String numbers)
     {
         String delemiter = ",";
+        if(numbers.endsWith("\n")||numbers.endsWith(delemiter))
+        {
+            numbers += "!";
+            return numbers.split("\n");
+        }
         
-        return numbers.split(delemiter);
+        return numbers.replace("\n", delemiter).split(delemiter);
 
     }
     private static int sum(String[] modified_numbers)
@@ -38,8 +43,6 @@ public class StringCalculator
             {
                 number = Integer.valueOf(i);
                 integer_list.add(number);
-
-    
             }
             
             for (Integer i:  integer_list)
@@ -60,6 +63,6 @@ public class StringCalculator
 
     public static void main(String[] args) 
     {
-       add("");
+       add("1,");
     }
 }

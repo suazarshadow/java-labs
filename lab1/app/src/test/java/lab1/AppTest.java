@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppTest
 {
     @Test void test1() {
-        Integer result = StringCalculator.add("1,2,3");
-        assertEquals(-1, result);
+        Integer result = StringCalculator.add("1,2,3,4");
+        assertEquals(10, result);
     }
     @Test void test2() {
         Integer result = StringCalculator.add("1 2");
@@ -18,7 +18,7 @@ class AppTest
     }
     @Test void test3() {
         Integer result = StringCalculator.add("1\n2");
-        assertEquals(-1, result);
+        assertEquals(3, result);
     }
     @Test void test4() {
         Integer result = StringCalculator.add("");
@@ -35,5 +35,9 @@ class AppTest
     @Test void test7() {
         Integer result = StringCalculator.add("1,2,3");
         assertEquals(6, result);
+    }
+    @Test void test8() {
+        Integer result = StringCalculator.add("1,\n");
+        assertEquals(-1, result);
     }
 }
