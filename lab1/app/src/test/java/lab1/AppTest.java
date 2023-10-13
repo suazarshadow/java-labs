@@ -63,5 +63,12 @@ class AppTest
     @Test void test14() {
         Integer result = StringCalculator.add("//[]\n1**2****3");
         assertEquals(6, result);
+    }@Test void test15() {
+        Integer result = StringCalculator.add("//[*][%]\n1*2%3");
+        assertEquals(6, result);
+    }
+    @Test void test16() {
+        Integer result = StringCalculator.add("//[***]\n1***2***3");
+        assertEquals(6, result);
     }
 }
