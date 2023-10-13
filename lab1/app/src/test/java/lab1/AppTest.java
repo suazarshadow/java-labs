@@ -30,7 +30,7 @@ class AppTest
     }
     @Test void test6() {
         Integer result = StringCalculator.add("-1,2,1");
-        assertEquals(2, result);
+        assertEquals(-1, result);
     }
     @Test void test7() {
         Integer result = StringCalculator.add("1,2,3");
@@ -69,6 +69,10 @@ class AppTest
     }
     @Test void test16() {
         Integer result = StringCalculator.add("//[***]\n1***2***3");
+        assertEquals(6, result);
+    }
+    @Test void test17() {
+        Integer result = StringCalculator.add("//[**][***]\n1**2***3");
         assertEquals(6, result);
     }
 }

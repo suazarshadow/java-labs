@@ -26,6 +26,7 @@ public class StringCalculator
             }
         }
         Integer result = sum(modified_numbers, del);
+        System.out.println(result);
         return result;
     }
 
@@ -45,6 +46,10 @@ public class StringCalculator
             numbers = tokens[1];
             custom_delemiters = get_custom_delemiters(tokens[0]);
         }
+        if (custom_delemiters.isEmpty())
+        {
+            return numbers.split("(?!^)");
+        }
         for(String i: custom_delemiters)
         {
             if (i == "")
@@ -56,6 +61,7 @@ public class StringCalculator
                 numbers += "!";
                 return numbers.split("\n");
             }
+            System.out.println("delemiter");
             numbers = numbers.replace(i, delemiter);
 
         }
@@ -110,9 +116,9 @@ public class StringCalculator
                         continue;
                     }
                     sum += i;
-                    System.out.println("Result : " + sum);
-                    return sum;
                 }
+                System.out.println("Result : " + sum);
+                return sum;
             }
             System.out.println("There is negative number(s):");
             for(Integer i: non_valid_integer)
@@ -137,16 +143,55 @@ public class StringCalculator
         delemiters = delemiters.replace("]", " ");
         
         List<String> dele = new ArrayList<String>();
+        List<String> deles_ = new ArrayList<String>();
         
         StringTokenizer st1 = new StringTokenizer(delemiters, " ");
+        String token;
         
         while (st1.hasMoreTokens())
-            dele.add(st1.nextToken());
+        {
+            token = st1.nextToken();
+            if (token == "")
+            {
+                return deles_;
+            }
+            dele.add(token);
+        }
+            
+
+        for(String i: dele)
+        {
+            System.out.println(i);
+        }
+        if (dele.size() <= 1)
+        {
+            return dele;
+        }
+        Integer  i, j;
+        Boolean swapped;
+
+            for (i = 0; i < dele.size() - 1; i++) 
+            {
+                swapped = false;
+                for (j = 0; j < dele.size()  - i - 1; j++) 
+                {
+                    if (dele.get(j).length() < dele.get(j+1).length()) 
+                    {
+                         
+                        Collections.swap(dele, j, j+1);
+                        swapped = true;
+                    }
+                }
+                if(!swapped)
+                {
+                    break;
+                }
+            }
         return dele;
     }
 
     public static void main(String[] args) 
     {
-       add("//!\n1!-22!-3");
+       add("//[;][]\n1**2****3");
     }
 }
