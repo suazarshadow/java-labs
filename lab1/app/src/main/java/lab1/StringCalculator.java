@@ -62,6 +62,10 @@ public class StringCalculator
             {
                 for (Integer i:  integer_list)
                 {
+                    if( i > 1000)
+                    {
+                        continue;
+                    }
                     sum += i;
                     System.out.println("Result : " + sum);
                     return sum;

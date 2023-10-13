@@ -56,4 +56,8 @@ class AppTest
         Integer result = StringCalculator.add("//!\n1!-22");
         assertEquals(-1, result);
     }
+    @Test void test13() {
+        Integer result = StringCalculator.add("//!\n1!2200");
+        assertEquals(1, result);
+    }
 }
