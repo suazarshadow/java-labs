@@ -16,32 +16,67 @@ public class StringCalculator
             return 0; 
         }
         String[] modified_numbers = get_numbers_string(numbers);
-        Integer result = sum(modified_numbers);
+
+        int del = 1;
+        for(String i: modified_numbers)
+        {
+            if(!(i.length() == 1))
+            {
+                del = 0;
+            }
+        }
+        Integer result = sum(modified_numbers, del);
         return result;
     }
 
     private static String[] get_numbers_string(String numbers)
     {
         String delemiter = ",";
-        String custom_delemiter = ""; 
+        String custom_delemiter = ","; 
         if(numbers.startsWith("//"))
         {
             String[] tokens = numbers.split("\n", 2);
             numbers = tokens[1];
             custom_delemiter = get_custom_delemiters(tokens[0]);
         }
+
+        if (custom_delemiter == "")
+        {
+            return numbers.split("(?!^)");
+        }
+
         if(numbers.endsWith("\n")||numbers.endsWith(delemiter)||numbers.endsWith(custom_delemiter))
         {
             numbers += "!";
             return numbers.split("\n");
         }
 
+        
+
         numbers = numbers.replace(custom_delemiter, delemiter);
         return numbers.replace("\n", delemiter).split(delemiter);
 
     }
-    private static int sum(String[] modified_numbers)
+    private static int sum(String[] modified_numbers, int del)
     {
+        if (del == 1)
+        {
+            
+            
+            Integer sum_ = 0;
+            for (String i: modified_numbers)
+            {
+                char ch = i.charAt(0);
+                if (!Character.isDigit(ch))
+                {
+                    continue;
+                }
+                int char_ = ch - '0';
+                sum_ += char_;
+            }
+            
+            return sum_;
+        }
         try
         {
             Integer sum = 0;
@@ -90,6 +125,8 @@ public class StringCalculator
         
         delemiter = delemiter.replace("//", "");
         delemiter = delemiter.replace("\n", "");
+        delemiter = delemiter.replace("[", "");
+        delemiter = delemiter.replace("]", "");
         return delemiter;
     }
 

@@ -60,4 +60,8 @@ class AppTest
         Integer result = StringCalculator.add("//!\n1!2200");
         assertEquals(1, result);
     }
+    @Test void test14() {
+        Integer result = StringCalculator.add("//[]\n1**2****3");
+        assertEquals(6, result);
+    }
 }
