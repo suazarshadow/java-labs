@@ -40,4 +40,16 @@ class AppTest
         Integer result = StringCalculator.add("1,\n");
         assertEquals(-1, result);
     }
+    @Test void test9() {
+        Integer result = StringCalculator.add("//;\n1,2\n3;4");
+        assertEquals(10, result);
+    }
+    @Test void test10() {
+        Integer result = StringCalculator.add("//;\n1,;");
+        assertEquals(-1, result);
+    }
+    @Test void test11() {
+        Integer result = StringCalculator.add("//!\n1!2");
+        assertEquals(3, result);
+    }
 }
