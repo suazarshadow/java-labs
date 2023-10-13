@@ -24,7 +24,7 @@ public class StringCalculator
     {
         String delemiter = ",";
         
-        return numbers.split(delemiter, 2);
+        return numbers.split(delemiter);
 
     }
     private static int sum(String[] modified_numbers)

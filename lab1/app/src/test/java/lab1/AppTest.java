@@ -28,4 +28,12 @@ class AppTest
         Integer result = StringCalculator.add("1,2");
         assertEquals(3, result);
     }
+    @Test void test6() {
+        Integer result = StringCalculator.add("-1,2,1");
+        assertEquals(2, result);
+    }
+    @Test void test7() {
+        Integer result = StringCalculator.add("1,2,3");
+        assertEquals(6, result);
+    }
 }
