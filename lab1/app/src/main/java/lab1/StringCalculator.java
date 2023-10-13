@@ -47,18 +47,32 @@ public class StringCalculator
             Integer sum = 0;
             Integer number = 0;
             List<Integer> integer_list = new ArrayList<Integer>();
+            List<Integer> non_valid_integer = new ArrayList<Integer>();
             for (String i: modified_numbers)
             {
                 number = Integer.valueOf(i);
+                if (number < 0)
+                {
+                    non_valid_integer.add(number);
+                    continue;
+                }
                 integer_list.add(number);
             }
-            
-            for (Integer i:  integer_list)
+            if (non_valid_integer.isEmpty())
             {
-                sum += i;
+                for (Integer i:  integer_list)
+                {
+                    sum += i;
+                    System.out.println("Result : " + sum);
+                    return sum;
+                }
             }
-            System.out.println("Result : " + sum);
-            return sum;
+            System.out.println("There is negative number(s):");
+            for(Integer i: non_valid_integer)
+            {
+                System.out.println(i);
+            }
+            throw new NumberFormatException();      
         }
         catch (NumberFormatException ex)
         {
@@ -77,6 +91,6 @@ public class StringCalculator
 
     public static void main(String[] args) 
     {
-       add("//;\n1,2\n3;4");
+       add("//!\n1!-22!-3");
     }
 }
