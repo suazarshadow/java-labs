@@ -6,12 +6,12 @@ package lab2;
 
 public class Matrix {
     private  double[][] values;
-    private Config Config;
+    private Config config = new Config();
 
     // Matrix initialization
     public void MatrixInit()
     {
-        Config.setConfig(0,0);
+        config.setConfig(0,0);
     }
 
     public void MatrixInit(int rows, int columns)
@@ -21,12 +21,18 @@ public class Matrix {
             throw new NumberFormatException("Invalid columns or rows input, must be at least 0");
         }
         values = new double[rows][columns];
-        Config.setConfig(rows, columns);
+        config.setConfig(rows, columns);
     }
 
     public void MatrixInit(Matrix matrix)
     {
-
+        
+        config.setConfig(matrix.config.Rows, matrix.config.Columns);
+        values = new double[config.Rows][config.Columns];
+        for (int indexOfRow = 0; indexOfRow < getNumberOfRows(); indexOfRow++) 
+        {
+            System.arraycopy(matrix.values[indexOfRow], 0, values[indexOfRow], 0, getNumberOfColumns());
+        }
     }
 
     public static Matrix createDiagonalMatrix(double... diagonal)
@@ -41,47 +47,72 @@ public class Matrix {
     //Funcions that helps us get something
     public Config getMatrixConfiguration()
     {
-        return Config;
+        return config;
     }
 
     public int getNumberOfRows()
     {
-        return Config.Rows;
+        return config.Rows;
     }
 
     public int getNumberOfColumns()
     {
-        return Config.Columns;
+        return config.Columns;
     }
 
     public double get(int indexOfRow, int indexOfColumn)
     {
-        return 0;
+        Compability(indexOfRow, indexOfColumn);     
+        return values[indexOfRow][indexOfColumn];
     }
 
     public Matrix getRow(int indexOfRow)
     {
-        return null;
+        Compability(indexOfRow, 0);
+        Matrix row = new Matrix();
+        row.MatrixInit(1, config.Columns);
+        System.arraycopy(values[indexOfRow], 0, row.values[0], 0, config.Columns);
+        return row;
     }
 
     public Matrix getColumn(int indexOfColumn)
     {
-        return null;
+        Compability(0, indexOfColumn);
+        Matrix column = new Matrix();
+        column.MatrixInit(config.Rows, 1);
+        for (int indexOfRow = 0; indexOfRow < getNumberOfRows(); indexOfRow++) 
+        {
+            column.values[indexOfRow][0] = values[indexOfRow][indexOfColumn];
+        }
+        return column;
     }
     //Seting functions
-    public void set(int indexOfRow, int indexOfColumn)
+    public void set(int indexOfRow, int indexOfColumn, double value)
     {
-
+        Compability(indexOfRow, indexOfColumn);
+        values[indexOfRow][indexOfColumn] = value;
     }
 
-    public void setRow(int indexOfColumn, double... row)
+    public void setRow(int indexOfRow,  double... row)
     {
-
+        Compability(indexOfRow, 0);
+        if (getNumberOfColumns() != row.length) 
+        {
+            throw new NumberFormatException("Wrong Input");
+        }
+        System.arraycopy(row, 0, values[indexOfRow], 0, getNumberOfColumns());
     }
 
     public void setColumn(int indexOfColumn, double... column)
     {
-
+        Compability(0, indexOfColumn);
+        if (getNumberOfRows() != column.length) 
+        {
+            throw new NumberFormatException("Wrong Input");
+        }
+        for (int indexOfRow = 0; indexOfRow < getNumberOfRows(); indexOfRow++) {
+            values[indexOfRow][indexOfColumn] = column[indexOfRow];
+        }
     }
     //Equals and hasCode
     @Override
@@ -121,28 +152,25 @@ public class Matrix {
 
     //Matrix visualization
 
-    public String getString()
+    public void getString()
     {
-        return null;
+        for(int i = 0; i <getNumberOfRows(); i ++)
+        {
+            for(int j = 0; j <getNumberOfColumns(); j ++) 
+            {
+                System.out.println(values[i][j]);
+            }
+            
+        }
     }
-
-
+    // check for bonds
+    private void Compability(int row, int column) 
+    {
+        if (row < 0 || row >= getNumberOfRows() || column < 0 || column >= getNumberOfColumns()) 
+        {
+            throw new NumberFormatException("Wrong Input");
+        }
+    }
+}
     
 
-
-
-
-
-
-
-
-
-
-   
-
-
-
-
-
-
-}

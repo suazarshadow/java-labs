@@ -8,8 +8,8 @@ public class Config {
 
     public void setConfig(int rows, int columns)
     {
-        this.Rows = rows;
-        this.Columns = columns;
+        Rows = rows;
+        Columns = columns;
     }
 
 }
