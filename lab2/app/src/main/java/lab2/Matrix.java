@@ -120,7 +120,8 @@ public class Matrix {
     }
     //Equals and hasCode
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) 
+    {
         if (this == obj) 
         {
             return true;
@@ -136,23 +137,59 @@ public class Matrix {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode() 
+    {
         return Arrays.deepHashCode(values);
     }
     //Functions that do some math`s action
     public Matrix add(Matrix matrix)
     {
-        return null;
+        if (matrix.getNumberOfRows() != config.Rows || matrix.getNumberOfColumns() != config.Columns) 
+        {
+            throw new NumberFormatException("Wrong matrix dimmension");
+        }
+        for (int indexOfRow = 0; indexOfRow  < getNumberOfRows(); indexOfRow ++) 
+        {
+            for (int indexOfColumn  = 0; indexOfColumn < getNumberOfColumns(); indexOfColumn++) 
+            {
+                values[indexOfRow][indexOfColumn] += matrix.values[indexOfRow][indexOfColumn];
+            }
+        }
+        return this;
     }
 
     public Matrix multiply(double scalar) 
     {
-        return null;
+        for (int i = 0; i < getNumberOfRows(); i++) 
+        {
+            for (int j = 0; j < getNumberOfColumns(); j++) 
+            {
+                values[i][j] *= scalar;
+            }
+        }
+        return this;
     }
 
     public Matrix multiply(Matrix matrix) 
     {
-        return null;
+        if (getNumberOfColumns() != matrix.getNumberOfRows()) 
+        {
+            throw new NumberFormatException();
+        }
+        double[][] result = new double[getNumberOfRows()][matrix.getNumberOfColumns()];
+        int n = getNumberOfColumns();
+        for (int indexOfRow = 0; indexOfRow < result.length; indexOfRow++) 
+        {
+            for (int indexOfColumn = 0; indexOfColumn < result[0].length; indexOfColumn++) 
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    result[indexOfRow][indexOfColumn] += values[indexOfRow][i] * matrix.values[i][indexOfColumn];
+                }
+            }
+        }
+        values = result;
+        return this;
     }
 
     public Matrix transposeMatrix()
@@ -160,10 +197,6 @@ public class Matrix {
         return null;
     }
 
-    public Matrix inverse()
-    {
-        return null;
-    }
 
     //Matrix visualization
 
@@ -178,6 +211,128 @@ public class Matrix {
         {
             throw new NumberFormatException("Wrong Input");
         }
+    }
+    //random input
+    public static Matrix createRandomRow(int NumberOfColumns) {
+        if (NumberOfColumns < 0) 
+        {
+            throw new NumberFormatException("Wrong input");
+        }
+        Matrix result = new Matrix();
+        result.MatrixInit(1, NumberOfColumns);
+
+        for (int columnI = 0; columnI < NumberOfColumns; columnI++) 
+        {
+            result.values[0][columnI] = Math.random();
+        }
+        return result;
+    }
+
+    public static Matrix createRandomColumn(int NumberOfRows) {
+        if (NumberOfRows < 0) 
+        {
+            throw new NumberFormatException("Wrong input");
+        }
+        Matrix result = new Matrix();
+        result.MatrixInit(NumberOfRows, 1);
+        for (int rowI = 0; rowI < NumberOfRows; rowI++) 
+        {
+            result.values[rowI][0] = Math.random();
+        }
+        return result;
+    }
+
+
+    public static Matrix createDiagonal(double... diagonal) {
+        Matrix result = new Matrix();
+        result.MatrixInit(diagonal.length, diagonal.length);
+        for (int i = 0; i < diagonal.length; i++) {
+            result.values[i][i] = diagonal[i];
+        }
+        return result;
+    }
+
+    public static Matrix createIdentity(int rowsN, int columnsN) {
+        if (rowsN < 0 || columnsN < 0) 
+        {
+            throw new NumberFormatException("Wrong imput");
+        }
+        Matrix result = new Matrix();
+        result.MatrixInit(rowsN, columnsN);
+        for (int i = 0; i < rowsN; i++) {
+            for (int j = 0; j < columnsN; j++) {
+                result.values[i][j] = 1;
+            }
+        }
+        return result;
+    }
+    public Matrix inverse() {
+        if (getNumberOfRows() != getNumberOfColumns()) 
+        {
+            throw new NumberFormatException("NoN square matrix");
+        }
+
+        int dim = getNumberOfRows();
+        double[][] result = new double[dim][dim];
+        double[][] buffer = new double[dim][dim];
+
+  
+        for (int i = 0; i < buffer.length; i++) 
+        {
+            result[i][i] = 1;
+            System.arraycopy(values[i], 0, buffer[i], 0, buffer[0].length);
+        }
+
+        for (int j = 0; j < dim; j++) 
+        {
+            int nonZeroI = j;
+            while (nonZeroI < dim && buffer[nonZeroI][j] == 0) 
+            {
+                nonZeroI++;
+            }
+            if (nonZeroI == dim) 
+            {
+                throw new NumberFormatException("Inverse matrix does not exist. Determinant is 0");
+            }
+
+            swapRows(buffer, nonZeroI, j);
+            swapRows(result, nonZeroI, j);
+
+            double scalar = buffer[j][j];
+            for (int j2 = 0; j2 < dim; j2++) 
+            {
+                result[j][j2] /= scalar;
+                buffer[j][j2] /= scalar;
+            }
+
+            for (int i = j+1; i < dim; i++) {
+                scalar = buffer[i][j];
+                for (int j2 = 0; j2 < dim; j2++) {
+                    result[i][j2] -= result[j][j2] * scalar;
+                    buffer[i][j2] -= buffer[j][j2] * scalar;
+                }
+            }
+        }
+
+        for (int j = dim-1; j > 0; j--) 
+        {
+            for (int i = j-1; i >= 0; i--) 
+            {
+                double scalar = buffer[i][j];
+                for (int j2 = 0; j2 < dim; j2++) 
+                {
+                    result[i][j2] -= result[j][j2] * scalar;
+                }
+            }
+        }
+
+        values = result;
+        return this;
+    }
+    private void swapRows(double[][] array, int r1, int r2) {
+        double[] temp = array[r1];
+        array[r1] = array[r2];
+        array[r2] = temp;
     }
 }
     
