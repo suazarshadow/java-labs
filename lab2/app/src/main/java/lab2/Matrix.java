@@ -16,6 +16,10 @@ public class Matrix {
 
     public void MatrixInit(int rows, int columns)
     {
+        if (rows < 0 || columns < 0)
+        {
+            throw new NumberFormatException("Invalid columns or rows input, must be at least 0");
+        }
         values = new double[rows][columns];
         Config.setConfig(rows, columns);
     }
