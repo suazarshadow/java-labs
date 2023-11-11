@@ -3,9 +3,142 @@
  */
 package lab2;
 
+
 public class Matrix {
+    private  double[][] values;
+    private Config Config;
+
+    // Matrix initialization
+    public void MatrixInit()
+    {
+        Config.setConfig(0,0);
+    }
+
+    public void MatrixInit(int rows, int columns)
+    {
+        values = new double[rows][columns];
+        Config.setConfig(rows, columns);
+    }
+
+    public void MatrixInit(Matrix matrix)
+    {
+
+    }
+
+    public static Matrix createDiagonalMatrix(double... diagonal)
+    {
+        return null;
+    }
+
+    public static Matrix createIdentityMatrix(int rows, int columns)
+    {
+        return null;
+    }
+    //Funcions that helps us get something
+    public Config getMatrixConfiguration()
+    {
+        return Config;
+    }
+
+    public int getNumberOfRows()
+    {
+        return Config.Rows;
+    }
+
+    public int getNumberOfColumns()
+    {
+        return Config.Columns;
+    }
+
+    public double get(int indexOfRow, int indexOfColumn)
+    {
+        return 0;
+    }
+
+    public Matrix getRow(int indexOfRow)
+    {
+        return null;
+    }
+
+    public Matrix getColumn(int indexOfColumn)
+    {
+        return null;
+    }
+    //Seting functions
+    public void set(int indexOfRow, int indexOfColumn)
+    {
+
+    }
+
+    public void setRow(int indexOfColumn, double... row)
+    {
+
+    }
+
+    public void setColumn(int indexOfColumn, double... column)
+    {
+
+    }
+    //Equals and hasCode
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+    //Functions that do some math`s action
+    public Matrix add(Matrix matrix)
+    {
+        return null;
+    }
+
+    public Matrix multiply(double scalar) 
+    {
+        return null;
+    }
+
+    public Matrix multiply(Matrix matrix) 
+    {
+        return null;
+    }
+
+    public Matrix transposeMatrix()
+    {
+        return null;
+    }
+
+    public Matrix inverse()
+    {
+        return null;
+    }
+
+    //Matrix visualization
+
+    public String getString()
+    {
+        return null;
+    }
+
+
+    
 
 
 
-    private double[][] matrix;
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
 }
