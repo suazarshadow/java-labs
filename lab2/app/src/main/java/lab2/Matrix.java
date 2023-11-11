@@ -4,6 +4,10 @@
 package lab2;
 
 
+
+import java.util.Arrays;
+
+
 public class Matrix {
     private  double[][] values;
     private Config config = new Config();
@@ -117,12 +121,23 @@ public class Matrix {
     //Equals and hasCode
     @Override
     public boolean equals(Object obj) {
-        return false;
+        if (this == obj) 
+        {
+            return true;
+        }
+        
+        if (getClass() != obj.getClass()) 
+        {
+            return false;
+        }
+        Matrix matrix = new Matrix();
+        matrix.MatrixInit((Matrix) obj);
+        return Arrays.deepEquals(values, matrix.values);
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return Arrays.deepHashCode(values);
     }
     //Functions that do some math`s action
     public Matrix add(Matrix matrix)
@@ -152,16 +167,9 @@ public class Matrix {
 
     //Matrix visualization
 
-    public void getString()
+    public String getString()
     {
-        for(int i = 0; i <getNumberOfRows(); i ++)
-        {
-            for(int j = 0; j <getNumberOfColumns(); j ++) 
-            {
-                System.out.println(values[i][j]);
-            }
-            
-        }
+        return Arrays.deepToString(values).replace("],", "]\n");
     }
     // check for bonds
     private void Compability(int row, int column) 

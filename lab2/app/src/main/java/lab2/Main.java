@@ -14,7 +14,18 @@ public class Main {
 
         Matrix column = matrix2.getRow(1);
 
-        column.getString();
+        String matrix = column.getString();
+
+        System.out.println(matrix);
+        if(matrix2.equals(matrix1))
+        {
+            System.out.println("matrix");
+        }
+
+        if(matrix1.hashCode() == matrix2.hashCode())
+        {
+            System.out.println("matrix");
+        }
 
      
     }
