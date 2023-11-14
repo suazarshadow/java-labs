@@ -13,31 +13,29 @@ public class Matrix {
     private Config config = new Config();
 
     // Matrix initialization
-    public void MatrixInit()
-    {
-        config.setConfig(0,0);
+    public Matrix() {
+        this(0, 0);
+        config.setConfig(0, 0);
     }
 
-    public void MatrixInit(int rows, int columns)
-    {
-        if (rows < 0 || columns < 0)
-        {
-            throw new NumberFormatException("Invalid columns or rows input, must be at least 0");
+    public Matrix(int rowsN, int columnsN) {
+        if (rowsN < 0 || columnsN < 0) {
+            throw new NumberFormatException(
+                    "WrongInput"
+            );
         }
-        values = new double[rows][columns];
-        config.setConfig(rows, columns);
+        values = new double[rowsN][columnsN];
+        config.setConfig(rowsN, columnsN);
     }
 
-    public void MatrixInit(Matrix matrix)
-    {
-        
-        config.setConfig(matrix.config.Rows, matrix.config.Columns);
-        values = new double[config.Rows][config.Columns];
-        for (int indexOfRow = 0; indexOfRow < getNumberOfRows(); indexOfRow++) 
-        {
-            System.arraycopy(matrix.values[indexOfRow], 0, values[indexOfRow], 0, getNumberOfColumns());
+    public Matrix(Matrix matrix) {
+        this(matrix.getNumberOfRows(), matrix.getNumberOfColumns());
+        for (int rowI = 0; rowI < getNumberOfRows(); rowI++) {
+            System.arraycopy(matrix.values[rowI], 0, values[rowI], 0, getNumberOfColumns());
         }
+        config.setConfig(matrix.getNumberOfRows(), matrix.getNumberOfColumns());
     }
+
 
     public static Matrix createDiagonalMatrix(double... diagonal)
     {
@@ -73,8 +71,7 @@ public class Matrix {
     public Matrix getRow(int indexOfRow)
     {
         Compability(indexOfRow, 0);
-        Matrix row = new Matrix();
-        row.MatrixInit(1, config.Columns);
+        Matrix row = new Matrix(1, config.Columns);
         System.arraycopy(values[indexOfRow], 0, row.values[0], 0, config.Columns);
         return row;
     }
@@ -82,8 +79,7 @@ public class Matrix {
     public Matrix getColumn(int indexOfColumn)
     {
         Compability(0, indexOfColumn);
-        Matrix column = new Matrix();
-        column.MatrixInit(config.Rows, 1);
+        Matrix column = new Matrix(config.Rows, 1);
         for (int indexOfRow = 0; indexOfRow < getNumberOfRows(); indexOfRow++) 
         {
             column.values[indexOfRow][0] = values[indexOfRow][indexOfColumn];
@@ -131,8 +127,7 @@ public class Matrix {
         {
             return false;
         }
-        Matrix matrix = new Matrix();
-        matrix.MatrixInit((Matrix) obj);
+        Matrix matrix = new Matrix((Matrix) obj);
         return Arrays.deepEquals(values, matrix.values);
     }
 
@@ -192,11 +187,16 @@ public class Matrix {
         return this;
     }
 
-    public Matrix transposeMatrix()
-    {
-        return null;
+    public Matrix transpose() {
+        double[][] transposed = new double[getNumberOfColumns()][getNumberOfRows()];
+        for (int rowI = 0; rowI < getNumberOfRows(); rowI++) {
+            for (int columnI = 0; columnI < getNumberOfColumns(); columnI++) {
+                transposed[columnI][rowI] = values[rowI][columnI];
+            }
+        }
+        values = transposed;
+        return this;
     }
-
 
     //Matrix visualization
 
@@ -218,8 +218,8 @@ public class Matrix {
         {
             throw new NumberFormatException("Wrong input");
         }
-        Matrix result = new Matrix();
-        result.MatrixInit(1, NumberOfColumns);
+        Matrix result = new Matrix(1, NumberOfColumns);
+    
 
         for (int columnI = 0; columnI < NumberOfColumns; columnI++) 
         {
@@ -233,8 +233,7 @@ public class Matrix {
         {
             throw new NumberFormatException("Wrong input");
         }
-        Matrix result = new Matrix();
-        result.MatrixInit(NumberOfRows, 1);
+        Matrix result = new Matrix(NumberOfRows, 1);
         for (int rowI = 0; rowI < NumberOfRows; rowI++) 
         {
             result.values[rowI][0] = Math.random();
@@ -244,25 +243,22 @@ public class Matrix {
 
 
     public static Matrix createDiagonal(double... diagonal) {
-        Matrix result = new Matrix();
-        result.MatrixInit(diagonal.length, diagonal.length);
+        Matrix result = new Matrix(diagonal.length, diagonal.length);
         for (int i = 0; i < diagonal.length; i++) {
             result.values[i][i] = diagonal[i];
         }
         return result;
     }
 
-    public static Matrix createIdentity(int rowsN, int columnsN) {
-        if (rowsN < 0 || columnsN < 0) 
+    public static Matrix createIdentity(int rowsN) {
+        if (rowsN < 0) 
         {
             throw new NumberFormatException("Wrong imput");
         }
-        Matrix result = new Matrix();
-        result.MatrixInit(rowsN, columnsN);
+        Matrix result = new Matrix(rowsN, rowsN);
         for (int i = 0; i < rowsN; i++) {
-            for (int j = 0; j < columnsN; j++) {
-                result.values[i][j] = 1;
-            }
+                result.values[rowsN][rowsN] = 1;
+            
         }
         return result;
     }
